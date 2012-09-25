@@ -1,9 +1,6 @@
-var key = "0AkqtJEdjsVeodHdCakQ1SHZPZ0FULWh5SXlweUFfekE"
-var spreadsheetURL ="https://spreadsheets.google.com/feeds/list/" + key +"/od6/public/values?alt=json"
 maphard.get.googleTable({
-    url:spreadsheetURL,
+    key: "0AkOIIIT7wBStdC13dEh2V0xMMUdVSnhrOWV0dy1QRnc",
     callback: function(data){
         console.log(data);
     }
-
 });
