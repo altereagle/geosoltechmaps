@@ -1,0 +1,19 @@
+body {
+    background-color: #f9f9f9;
+}
+#googleMap {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50%;
+    background-color: #ddf;
+}
+#openMap {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50%;
+    background-color: #dfd;
+}
