@@ -5,29 +5,29 @@ maphard.get.googleTable({
     }
 });
 
-function initGMap() {
+function initGoogleMap() {
     var mapId = "googleMap";
     var mapOptions = {
-        center: new google.maps.LatLng(30.2669, -97.7428),
-        zoom: 13,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        center      : new google.maps.LatLng(30.2669, -97.7428),
+        zoom        : 13,
+        mapTypeId   : google.maps.MapTypeId.ROADMAP
     };
     
     maphard.load.googleMap(mapId, mapOptions);
 }
 
-function initOMap(){
-    var mapId = "openMap";
+function initOpenLayersMap(){
+    var mapId = "openLayersMap";
     var mapOptions = {
-        layer: "default"
+        layer   : "default"
     };
         
-    maphard.load.osMap(mapId,mapOptions)
+    maphard.load.openLayersMap(mapId, mapOptions)
 }
 
 function initAllMaps(){
-    initGMap();
-    initOMap();
+    initGoogleMap();
+    initOpenLayersMap();
 }
 
 $(document).ready(initAllMaps);

@@ -9,7 +9,7 @@ body {
     height: 50%;
     background-color: #ddf;
 }
-#openMap {
+#openLayersMap {
     position: absolute;
     bottom: 0px;
     left: 0px;
