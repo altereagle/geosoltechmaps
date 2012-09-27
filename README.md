@@ -1,4 +1,4 @@
 maphard
 =======
 
-Geographic Information System using Google Maps, and ESRI's JavaScript API
+Geographic Information System using Google Maps, and Open Layers
