@@ -31,5 +31,3 @@ function initAllMaps(){
 }
 
 $(document).ready(initAllMaps);
-
-console.log(maphard.calc.direction([0,0],[20,20])); // Find the angle and cardinal direction between two points
