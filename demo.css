@@ -1,19 +1,47 @@
 body {
     background-color: #f9f9f9;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
-#googleMap {
+nav {
+    z-index: 1;
+    position: absolute;
+    padding: 10px;
+}
+button {
+    height: 40px;
+}
+.map {
+    position: absolute;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    background-color: #eee;
+    box-shadow: 0px 10px 40px #aaa, inset 0px 0px 20px #999;
+}
+#desktop {
     position: absolute;
     top: 0px;
     left: 0px;
+    margin: 0px;
     width: 100%;
-    height: 50%;
-    background-color: #ddf;
-}
-#openLayersMap {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    height: 50%;
-    background-color: #dfd;
+    height: 100%;
+    box-shadow: inset 0px 0px 20px #ddd;
+    
+    background-image: linear-gradient(left top, rgb(255,255,255) 17%, rgb(238,238,238) 100%);
+    background-image: -o-linear-gradient(left top, rgb(255,255,255) 17%, rgb(238,238,238) 100%);
+    background-image: -moz-linear-gradient(left top, rgb(255,255,255) 17%, rgb(238,238,238) 100%);
+    background-image: -webkit-linear-gradient(left top, rgb(255,255,255) 17%, rgb(238,238,238) 100%);
+    background-image: -ms-linear-gradient(left top, rgb(255,255,255) 17%, rgb(238,238,238) 100%);
+    
+    background-image: -webkit-gradient(
+        linear,
+    	left top,
+    	right bottom,
+    	color-stop(0.17, rgb(255,255,255)),
+    	color-stop(1, rgb(238,238,238))
+    );
 }
