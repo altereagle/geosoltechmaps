@@ -14,13 +14,62 @@ nav {
 }
 button {
     height: 40px;
+    cursor: pointer;
 }
-.map {
+.tableSource {
+    float: right;
+}
+.tableSourceFound {
+    z-index: 999;
     position: absolute;
+    padding: 5px;
+    width: 80px;
+    color: #000;
+    font-size: 10pt;
+    font-family: "Gill Sans", Arial, sans-serif;
+    background-color: #aaa;
+    border-right: 20px solid #111;
+    border-radius: 5px;
+    cursor: move;
+}
+.tableSourceFound:hover {
+    border-right: 20px solid #666;
+}
+.tableSourceFound:active {
+    color: #fff;
+    background-color: #111;
+    border-right: 20px solid #ddd;
+    box-shadow: 0px 5px 10px #000;
+}
+.mapContainer{
+    position:absolute;
     border: 1px solid #ddd;
     border-radius: 2px;
     background-color: #eee;
     box-shadow: 0px 10px 40px #aaa, inset 0px 0px 20px #999;
+}
+.map {
+    position: absolute;
+    width: 100%;
+    border-bottom: 5px solid #ddd;
+}
+.mapMenu {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    padding: 0px;
+    margin: 0px;
+    height: 45px;
+    width: 100%;
+    box-shadow: inset 0px 0px 10px #bbb;
+}
+.mapTable {
+}
+#logStatus {
+    z-index: 9999;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
 #desktop {
     position: absolute;
