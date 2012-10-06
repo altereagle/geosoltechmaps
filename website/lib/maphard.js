@@ -5,15 +5,17 @@
 (function(){
     var maphard = {
         load: {
-            googleMap: function(mapId, mapOptions, tableKey){
+            googleMap: function(mapId, mapOptions, dataLink){
                 mapId = typeof mapId === "string" ? document.getElementById(mapId) : mapId;
                 var map = new google.maps.Map(mapId, mapOptions);
                 
                 maphard.store.maps.google.push(map); // add map to store
                 
-                if(tableKey !== ""){
+                if (dataLink.indexOf("http") === 0 && (dataLink.length - dataLink.indexOf(".kml")) === 4){
+                    maphard.place.kml(map, "google", dataLink);
+                } else if(dataLink.length === 44 && !(/[^A-Z^a-z^0-9]/g.test(dataLink))){
                     maphard.get.googleTable({
-                        key: tableKey,
+                        key: dataLink,
                         callback: function(data){
                             maphard.place.marker(map, "google", data);
                         }
@@ -22,7 +24,7 @@
                 
                 return map;
             },
-            openLayersMap: function(mapId, mapOptions, tableKey){
+            openLayersMap: function(mapId, mapOptions, dataLink){
                 var map = new OpenLayers.Map(mapId);
                 var lat = 0;
                 var lon = 0;
@@ -45,9 +47,11 @@
                 
                 maphard.store.maps.openLayers.push(map); // add map to store
                 
-                if(tableKey !== ""){
+                if (dataLink.indexOf("http") === 0 && (dataLink.length - dataLink.indexOf(".kml")) === 4){
+                    maphard.place.kml(map, "openLayers", dataLink);
+                }else if(dataLink.length === 44 && !(/[^A-Z^a-z^0-9]/g.test(dataLink))){
                     maphard.get.googleTable({
-                        key: tableKey,
+                        key: dataLink,
                         callback: function(data){
                             maphard.place.marker(map, "openLayers", data);
                         }
@@ -58,6 +62,27 @@
             }
         },
         place:{
+            kml: function(map, type, data){
+                if(type ==="google"){
+                    var kmlLayer = new google.maps.KmlLayer(data);
+                    kmlLayer.setMap(map);
+                } else if(type ==="openLayers"){
+                    // This fails on X-origin req. This still needs work, hang tight.
+                    var kmlLayer = new OpenLayers.Layer.Vector("KML", {
+                        projection: new OpenLayers.Projection("EPSG:4326"),
+                        strategies: [new OpenLayers.Strategy.Fixed()],
+                        protocol: new OpenLayers.Protocol.HTTP({
+                            url: data,
+                            format: new OpenLayers.Format.KML({
+                                maxDepth: 1,
+                                extractStyles: true,
+                                extractAttributes: true
+                            })
+                        })
+                    });
+                    map.addLayer(kmlLayer);
+                }
+            },
             marker: function(map, type, data){
                 var loc = maphard.parse.latLon(data);
                 function placeMarkers(row){
