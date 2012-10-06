@@ -85,6 +85,8 @@
             },
             marker: function(map, type, data){
                 var loc = maphard.parse.latLon(data);
+                var markerIcon = "lib/img/marker.png"
+                var markerIconShadow = "lib/img/marker_shadow.png"
                 function placeMarkers(row){
                     var lat = row[loc.lat].value;
                     var lon = row[loc.lon].value;
@@ -92,7 +94,9 @@
                         var marker = new google.maps.Marker({
                             position: new google.maps.LatLng(lat, lon),
                             map: map,
-                            title:"Marker"
+                            title:"Marker",
+                            icon: markerIcon,
+                            shadow: markerIconShadow
                         });
                     } else if (type ==="openLayers"){
                         var markers = new OpenLayers.Layer.Markers( "Markers" );
