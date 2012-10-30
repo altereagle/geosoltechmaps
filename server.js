@@ -1,7 +1,7 @@
 var connect = require('connect');
 
 var mapHard = connect()
-    .use(connect.static('website'))
+    .use(connect.static('app'))
     .use(badReqHandler)
     .listen(process.env.PORT);
     
