@@ -3,23 +3,23 @@
  *
 */
 (function(){
-    var maphard = {
+    var gst = {
         load: {
             googleMap: function(mapId, mapOptions, dataLink, buttons){
                 mapId = typeof mapId === "string" ? document.getElementById(mapId) : mapId;
                 var map = new google.maps.Map(mapId, mapOptions);
                 var bindDataButton = buttons.bindData ? buttons.bindData : undefined;
-                maphard.store.maps.google.push(map); // add map to store
+                gst.store.maps.google.push(map); // add map to store
                 
                 
                 if (dataLink.indexOf("http") === 0 && (dataLink.length - dataLink.indexOf(".kml")) === 4){
-                    maphard.place.kml(map, "google", dataLink);
+                    gst.place.kml(map, "google", dataLink);
                     
                     if(bindDataButton){
                         bindDataButton.addEventListener("click", function(e){
-                            maphard.store.maps.google.map(function(MAP){
+                            gst.store.maps.google.map(function(MAP){
                                 function execBindData() {
-                                    maphard.place.kml(MAP, "google", dataLink);
+                                    gst.place.kml(MAP, "google", dataLink);
                                     google.maps.event.removeListener(eventListener);
                                 }
                                 
@@ -29,16 +29,16 @@
                     }
                     
                 } else if(dataLink.length === 44 && !(/[^A-Z^a-z^0-9]/g.test(dataLink))){
-                    maphard.get.googleTable({
+                    gst.get.googleTable({
                         key: dataLink,
                         callback: function(data){
-                            maphard.place.marker(map, "google", data);
+                            gst.place.marker(map, "google", data);
                             
                             if(bindDataButton){
                                 bindDataButton.addEventListener("click", function(e){
-                                    maphard.store.maps.google.map(function(MAP){
+                                    gst.store.maps.google.map(function(MAP){
                                         function execBindData() {
-                                            maphard.place.marker(MAP, "google", data);
+                                            gst.place.marker(MAP, "google", data);
                                             google.maps.event.removeListener(eventListener);
                                         }
                                         
@@ -73,15 +73,15 @@
                 var position = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
                 map.setCenter(position,zoom);
                 
-                maphard.store.maps.openLayers.push(map); // add map to store
+                gst.store.maps.openLayers.push(map); // add map to store
                 
                 if (dataLink.indexOf("http") === 0 && (dataLink.length - dataLink.indexOf(".kml")) === 4){
-                    maphard.place.kml(map, "openLayers", dataLink);
+                    gst.place.kml(map, "openLayers", dataLink);
                 }else if(dataLink.length === 44 && !(/[^A-Z^a-z^0-9]/g.test(dataLink))){
-                    maphard.get.googleTable({
+                    gst.get.googleTable({
                         key: dataLink,
                         callback: function(data){
-                            maphard.place.marker(map, "openLayers", data);
+                            gst.place.marker(map, "openLayers", data);
                         }
                     });
                 }
@@ -112,7 +112,7 @@
                 }
             },
             marker: function(map, type, data){
-                var loc = maphard.parse.latLon(data);
+                var loc = gst.parse.latLon(data);
                 var markerIcon = "lib/img/marker.png";
                 var markerIconShadow = "lib/img/marker_shadow.png";
                 
@@ -171,7 +171,7 @@
     
                         for (var name in obj) {
                             var rowName = name.split(str)[1]; // Get the name of the value
-                            var rowValue = htmlAllowed ? obj[name].$t : maphard.tools.stripHTML(obj[name].$t); // Allow or remove HTML tags from values
+                            var rowValue = htmlAllowed ? obj[name].$t : gst.tools.stripHTML(obj[name].$t); // Allow or remove HTML tags from values
                             if (name.indexOf(str) === pos) validRows.push({
                                 name: rowName,
                                 value: rowValue
@@ -404,7 +404,7 @@
                         var mapType = e.srcElement.innerHTML === "Google Map" ? "google" : "openLayers";
                         var newMapId = mapType === "google"? "googleMap_": "openLayersMap_";
                             newMapId += randomId;
-                        var tableKey = maphard.tools.stripHTML(tableInput.value);
+                        var tableKey = gst.tools.stripHTML(tableInput.value);
                         
                         map.setAttribute("id", newMapId);
                         map.style.height = (parseInt(mapContainer.style.height,10) - 50 ) + "px";
@@ -425,7 +425,7 @@
                                     zoom        : 13,
                                     mapTypeId   : google.maps.MapTypeId.ROADMAP
                                 };
-                                maphard.load.googleMap(newMapId, mapOptions, tableKey, { 
+                                gst.load.googleMap(newMapId, mapOptions, tableKey, { 
                                     bindData: bindDataButton,
                                     bindView: bindViewButton
                                 });
@@ -436,13 +436,13 @@
                                     zoom    : 13,
                                     layer   : "default"
                                 };
-                                maphard.load.openLayersMap(newMapId, openLayersOptions, tableKey, { 
+                                gst.load.openLayersMap(newMapId, openLayersOptions, tableKey, { 
                                     bindData: bindDataButton,
                                     bindView: bindViewButton
                                 });
                             }
-                            maphard.store.view.origin = [lat, lon]; // store origin
-                            maphard.store.view.centroid = [lat, lon]; // store centroid
+                            gst.store.view.origin = [lat, lon]; // store origin
+                            gst.store.view.centroid = [lat, lon]; // store centroid
                         }
                         
                         navigator.geolocation.getCurrentPosition(startingLocation);
@@ -530,8 +530,8 @@
                         desktop.removeChild(desktop.lastChild);
                     }
                     
-                    maphard.store.maps.google.length = 0;
-                    maphard.store.maps.openLayers.length = 0;
+                    gst.store.maps.google.length = 0;
+                    gst.store.maps.openLayers.length = 0;
                 }
                 
                 drawNewMapButton.addEventListener("click", enableDrawContainer);
@@ -555,8 +555,8 @@
     };
     $(document).ready(function(){
         var logStatus = document.getElementById('logStatus');
-        logStatus.onclick = function(){ console.log(maphard.store);};
+        logStatus.onclick = function(){ console.log(gst.store);};
     });
     
-    window.maphardInit = maphard.ui.init; // expose init to DOM
+    window.gstInit = gst.ui.init; // expose init to DOM
 })();

@@ -2,7 +2,7 @@
 
 $(document).ready(function(){
     
-    maphardInit({
+    gstInit({
         buttons: {
             newMap: 'drawNewMap',
             clearMaps: 'clearMaps',

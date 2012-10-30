@@ -1,4 +1,4 @@
-Copyright 2012 MapHard and other contributors
+Copyright 2012 Geospatial Solutions & Technology and other contributors
 http://maphard.com/
 
 Permission is hereby granted, free of charge, to any person obtaining
