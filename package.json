@@ -1,17 +1,15 @@
 {
-  "author": "Kendell Joseph <contact@kendelljoseph.com> (http://www.kendelljoseph.com)",
-  "name": "maphard_server",
-  "description": "Server for maphard",
+  "author": "Kendell Joseph <kendell@geosoltech.com> (http://www.geosoltech.com)",
+  "name": "geosoltech_maps",
+  "description": "Geosoltech Map Server",
   "version": "0.0.0",
-  "homepage": "http://www.maphard.com",
+  "homepage": "http://www.geosoltech.com",
   "repository": {
     "type": "git",
-    "url": "git://github.com/altereagle/maphard.git"
+    "url": "git://github.com/altereagle/geosoltechmap.git"
   },
   "main": "server.js",
   "dependencies": {
-    "socket.io": "*",
-    "express": "*",
     "connect": "*"
   },
   "devDependencies": {},
