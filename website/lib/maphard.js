@@ -5,26 +5,54 @@
 (function(){
     var maphard = {
         load: {
-            googleMap: function(mapId, mapOptions, dataLink){
+            googleMap: function(mapId, mapOptions, dataLink, buttons){
                 mapId = typeof mapId === "string" ? document.getElementById(mapId) : mapId;
                 var map = new google.maps.Map(mapId, mapOptions);
-                
+                var bindDataButton = buttons.bindData ? buttons.bindData : undefined;
                 maphard.store.maps.google.push(map); // add map to store
+                
                 
                 if (dataLink.indexOf("http") === 0 && (dataLink.length - dataLink.indexOf(".kml")) === 4){
                     maphard.place.kml(map, "google", dataLink);
+                    
+                    if(bindDataButton){
+                        bindDataButton.addEventListener("click", function(e){
+                            maphard.store.maps.google.map(function(MAP){
+                                function execBindData() {
+                                    maphard.place.kml(MAP, "google", dataLink);
+                                    google.maps.event.removeListener(eventListener);
+                                }
+                                
+                                var eventListener = google.maps.event.addListener(MAP, 'click', execBindData);
+                            });
+                        });
+                    }
+                    
                 } else if(dataLink.length === 44 && !(/[^A-Z^a-z^0-9]/g.test(dataLink))){
                     maphard.get.googleTable({
                         key: dataLink,
                         callback: function(data){
                             maphard.place.marker(map, "google", data);
+                            
+                            if(bindDataButton){
+                                bindDataButton.addEventListener("click", function(e){
+                                    maphard.store.maps.google.map(function(MAP){
+                                        function execBindData() {
+                                            maphard.place.marker(MAP, "google", data);
+                                            google.maps.event.removeListener(eventListener);
+                                        }
+                                        
+                                        var eventListener = google.maps.event.addListener(MAP, 'click', execBindData);
+                                    });
+                                });
+                            }
                         }
                     });
                 }
                 
                 return map;
             },
-            openLayersMap: function(mapId, mapOptions, dataLink){
+            openLayersMap: function(mapId, mapOptions, dataLink, buttons){
                 var map = new OpenLayers.Map(mapId);
                 var lat = 0;
                 var lon = 0;
@@ -85,8 +113,9 @@
             },
             marker: function(map, type, data){
                 var loc = maphard.parse.latLon(data);
-                var markerIcon = "lib/img/marker.png"
-                var markerIconShadow = "lib/img/marker_shadow.png"
+                var markerIcon = "lib/img/marker.png";
+                var markerIconShadow = "lib/img/marker_shadow.png";
+                
                 function placeMarkers(row){
                     var lat = row[loc.lat].value;
                     var lon = row[loc.lon].value;
@@ -344,6 +373,9 @@
                     var openLayersMapButton = document.createElement('button');
                     var cancelButton = document.createElement('button');
                     
+                    var bindDataButton = document.createElement('button');
+                    var bindViewButton = document.createElement('button');
+                    
                     var mapContainer = document.createElement('div');
                     var map = document.createElement('div');
                     var mapMenu = document.createElement('nav');
@@ -352,6 +384,9 @@
                     googleMapButton.innerHTML = "Google Map";
                     openLayersMapButton.innerHTML = "Open Layers Map";
                     cancelButton.innerHTML = "Cancel";
+                    
+                    bindDataButton.innerHTML = "Bind Data";
+                    bindViewButton.innerHTML = "Bind View";
                     
                     document.body.style.cursor = "se-resize";
                     
@@ -373,6 +408,10 @@
                         
                         map.setAttribute("id", newMapId);
                         map.style.height = (parseInt(mapContainer.style.height,10) - 50 ) + "px";
+                        
+                        mapMenu.appendChild(bindDataButton);
+                        mapMenu.appendChild(bindViewButton);
+                        
                         mapContainer.removeChild(mapOptionContainer);
                         mapContainer.appendChild(map);
                         mapContainer.appendChild(mapMenu);
@@ -386,7 +425,10 @@
                                     zoom        : 13,
                                     mapTypeId   : google.maps.MapTypeId.ROADMAP
                                 };
-                                maphard.load.googleMap(newMapId, mapOptions, tableKey);
+                                maphard.load.googleMap(newMapId, mapOptions, tableKey, { 
+                                    bindData: bindDataButton,
+                                    bindView: bindViewButton
+                                });
                                 
                             } else if (mapType === "openLayers") {
                                 var openLayersOptions = {
@@ -394,7 +436,10 @@
                                     zoom    : 13,
                                     layer   : "default"
                                 };
-                                maphard.load.openLayersMap(newMapId, openLayersOptions, tableKey);
+                                maphard.load.openLayersMap(newMapId, openLayersOptions, tableKey, { 
+                                    bindData: bindDataButton,
+                                    bindView: bindViewButton
+                                });
                             }
                             maphard.store.view.origin = [lat, lon]; // store origin
                             maphard.store.view.centroid = [lat, lon]; // store centroid
