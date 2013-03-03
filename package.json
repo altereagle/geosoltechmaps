@@ -1,8 +1,7 @@
 {
   "author": "Kendell Joseph <kendell@geosoltech.com> (http://www.geosoltech.com)",
-  "name": "geosoltech_maps",
   "description": "Geosoltech Map Server",
-  "version": "0.0.0",
+  "version": "0.0.0-4",
   "homepage": "http://www.geosoltech.com",
   "repository": {
     "type": "git",
@@ -16,5 +15,10 @@
   "optionalDependencies": {},
   "engines": {
     "node": "*"
-  }
+  },
+  "subdomain": "maps2",
+  "scripts": {
+    "start": "server.js"
+  },
+  "name": "geosoltechmaps"
 }
